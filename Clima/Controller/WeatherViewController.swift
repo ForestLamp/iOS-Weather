@@ -29,7 +29,6 @@ class WeatherViewController: UIViewController, UITextFieldDelegate, IWeatherMana
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {  // Кнопка Return на клавиатуре
         searchTF.endEditing(true) // Скрыть клавиатуру по нажатию на кнопку Return
-        return true
     }
     
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
@@ -49,9 +48,14 @@ class WeatherViewController: UIViewController, UITextFieldDelegate, IWeatherMana
         searchTF.placeholder = "Search"
     }
     
-    func didUpdateWeather(weather: WeatherModel) {
-        print(weather.temperature)
+    func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel) {
+        DispatchQueue.main.async {
+            self.temperatureLabel.text = weather.temperatureString
+        }
     }
     
+    func didFailWithError(error: Error) {
+        print(error)
+    }
     
 }
